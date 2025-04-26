@@ -1,0 +1,52 @@
+import machine
+import neopixel
+import time
+import urandom
+
+# Configuration
+NUM_LEDS = 30  # Number of LEDs in your strip
+PIN_NUM = 4
+
+# Initialize the strip
+np = neopixel.NeoPixel(machine.Pin(PIN_NUM), NUM_LEDS)
+
+# Helper function to blend two colors
+def blend(color1, color2, t):
+    return (
+        int(color1[0] + (color2[0] - color1[0]) * t),
+        int(color1[1] + (color2[1] - color1[1]) * t),
+        int(color1[2] + (color2[2] - color1[2]) * t)
+    )
+
+# Generate a random color
+def random_color():
+    return (
+        urandom.getrandbits(8),
+        urandom.getrandbits(8),
+        urandom.getrandbits(8)
+    )
+
+# Start with random colors
+current_color = random_color()
+next_color = random_color()
+steps = 30  # Fewer steps for faster transitions
+step = 0
+
+while True:
+    t = step / steps
+    color = blend(current_color, next_color, t)
+
+    for i in range(NUM_LEDS):
+        np[i] = color
+    np.write()
+
+    time.sleep(0.01)  # Faster refresh rate
+
+    step += 1
+    if step > steps:
+        step = 0
+        current_color = next_color
+        next_color = random_color()
+
+
+
