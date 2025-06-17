@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Postcard</title>
+  <style>
+    body {
+      background: #f8f8f8;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: sans-serif;
+    }
+
+    .postcard-container {
+      perspective: 1000px;
+      width: 90vw;
+      max-width: 400px;
+    }
+
+    .postcard {
+      width: 100%;
+      padding-top: 66%; /* Aspect ratio 3:2 */
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.6s;
+      border-radius: 15px;
+    }
+
+    .flipped {
+      transform: rotateY(180deg);
+    }
+
+    .side {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      background-size: cover;
+      background-position: center;
+      border-radius: 15px;
+    }
+
+    .front {
+      background-image: url('https://i.ibb.co/vxKV8Vc7/front.png');
+    }
+
+    .back {
+      background-image: url('https://i.ibb.co/bRrv5qTG/back.png');
+      transform: rotateY(180deg);
+    }
+
+    .instruction {
+      margin-top: 15px;
+      font-size: 1rem;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="postcard-container" onclick="flipCard()">
+    <div class="postcard" id="card">
+      <div class="side front"></div>
+      <div class="side back"></div>
+    </div>
+  </div>
+
+  <div class="instruction">Click on the picture to flip</div>
+
+  <script>
+    function flipCard() {
+      document.getElementById("card").classList.toggle("flipped");
+    }
+  </script>
+
+</body>
+</html>
